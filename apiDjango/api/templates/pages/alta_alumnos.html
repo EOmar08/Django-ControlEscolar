@@ -1,0 +1,215 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %} Sample Page {% endblock title %}
+
+{% block content %}
+  <!-- [ Main Content ] start -->
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Busca el token CSRF
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0, // Desplazarse a la parte superior
+        left: 0, // No cambiar la posición horizontal
+        behavior: 'smooth' // Desplazamiento suave (animado)
+      });
+    }
+    
+    $(document).ready(function() {
+        $('#btnRegistrar').click(function() {
+            // Obtén los datos del formulario como un objeto
+            
+            var formData = {
+                enrollment: $('#enrollment').val(),
+                type_user_id: $('#type_user_id').val(),
+                first_name: $('#first_name').val(),
+                last_name: $('#last_name').val(),
+                middle_name: $('#middle_name').val(),
+                curp: $('#curp').val(),
+                nss: $('#nss').val(),
+                phone: $('#phone').val(),
+                mobile: $('#mobile').val()
+            };
+            
+            $.ajax({
+                url: "{% url 'registrar_usuario' %}", 
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData), 
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                success: function(data) {                  
+                  console.log(data);
+                  if (data.status === 'success') {                            
+                      $('#mensaje').html('Alumno creado correctamente.');    
+                      $('#enrollment').val('');
+                      $('#type_user_id').val('');
+                      $('#first_name').val('');
+                      $('#last_name').val('');
+                      $('#middle_name').val('');
+                      $('#curp').val('');
+                      $('#nss').val('');
+                      $('#phone').val('');
+                      $('#mobile').val('');
+                      scrollToTop();               
+                  } else if (data.status === 'error') {                     
+                      $('#mensaje').html('Error: ' + data.message);
+                  }
+
+                  $('#mensaje').show();
+                    setTimeout(function() {
+                        $('#mensaje').hide();
+                    }, 10000);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                  alert("No correct");
+                  // Aquí manejas los errores de la solicitud AJAX
+                  $('#mensaje').html('Hubo un error al ejecutar la función: ' + errorThrown);
+                  $('#mensaje').show();
+                  setTimeout(function() {
+                      $('#mensaje').hide();
+                  }, 10000);
+                }
+            });
+        });
+    });
+
+
+  </script>
+
+
+  <div class="pc-container">
+    <div class="pc-content">
+      <!-- [ breadcrumb ] start -->
+      <div class="page-header">
+        <div class="page-block">
+          <div class="row align-items-center">
+            <div class="col-md-12">
+              <div class="page-header-title">
+                <h5 class="m-b-10">Alumnos</h5>
+              </div>
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../navigation/index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="javascript: void(0)">Alumnos</a></li>
+                <li class="breadcrumb-item" aria-current="page">Alta alumnos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- [ breadcrumb ] end -->
+
+
+      <!-- [ Main Content ] start -->
+      <div class="row">
+        <!-- [ sample-page ] start -->
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <h5>Alta alumnos</h5>
+            </div>
+            <div class="card-body">            
+
+              <div id="mensaje" style="display: none;"></div>
+            
+
+              <p>       
+
+                <form method="post" id="registro-form">
+                  {% csrf_token %}
+                  <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-2 col-form-label">Matricula:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="enrollment" name="enrollment" placeholder="Matricula">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-2 col-form-label">Nombre:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Nombre">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-2 col-form-label">Apellido Paterno:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Apellido Paterno">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-2 col-form-label">Apellido Materno:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Apellido Materno">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-2 col-form-label">CURP:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="curp" name="curp" placeholder="CURP">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-2 col-form-label">NSS:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="nss" name="nss" placeholder="NSS">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-2 col-form-label">Teléfono:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="phone" name="phone" placeholder="Teléfono">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-2 col-form-label">Celular:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Celular">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-2 col-form-label">Tipo usuario:</label>
+                    <div class="col-sm-10">
+                      <select id="type_user_id" name="type_user_id" class="form-control">
+                        <option value="1">Administrador</option>
+                        <option value="2">Docente</option>
+                        <option selected value="3">Alumno</option>
+                      </select>
+                    </div>
+                  </div>         
+                  <div class="form-group row">
+                    <div class="col-sm-10">
+                      <button type="button" class="btn btn-primary" id="btnRegistrar">Registrar</button>
+                    </div>
+                  </div>
+                </form>
+                               
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- [ sample-page ] end -->
+      </div>
+      <!-- [ Main Content ] end -->
+    </div>
+  </div>
+  <!-- [ Main Content ] end -->
+{% endblock content %}
