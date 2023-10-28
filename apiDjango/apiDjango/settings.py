@@ -100,13 +100,24 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_control_escolar',
-        'USER': 'postgres',
-        'PASSWORD': 'Postgres1234',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': 'db_control_escolar_kzbs',
+        'USER': 'iscs',
+        'PASSWORD': 'ENqgNSR2n96vczYCUBiJA1LVhVEVX3Ul',
+        'HOST': 'oregon-postgres.render.com',
+        'PORT': '',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'db_control_escolar',
+#         'USER': 'postgres',
+#         'PASSWORD': 'ENqgNSR2n96vczYCUBiJA1LVhVEVX3Ul',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 
 
 

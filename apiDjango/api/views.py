@@ -385,13 +385,15 @@ class redireccionarIndex(APIView):
     template_name = "pages/index.html"
     def get(self, request):
         # Lógica para renderizar la página 'index.html' en una solicitud GET
-        GoogleSheetsAPIView()
+        
         return render(request, self.template_name)
 
     def post(self, request):
         # Lógica para procesar la solicitud POST
         # Puedes redirigir o realizar otras acciones aquí
         # Por ejemplo, redirigir al usuario a otra página después de un formulario POST
+        url = 'http://localhost:8000/google/'
+        response = requests.post(url)
         return redirect('redireccionarIndex')  # Asegúrate de que 'otra_pagina' sea el nombre de una vista en tu urls.py
 
 class LoginView(APIView):
@@ -698,7 +700,7 @@ class GoogleSheetsAPIView(APIView):
 
                 else:
                    
-                    #print(f"Pregunta: {pregunta}, Respuesta: {respuesta}")
+                    print(f"Pregunta: {pregunta}, Respuesta: {respuesta}")
                     
                     _cuestion = get_object_or_404(Pregunta, description=pregunta)
                     _id = int(_cuestion.pk)
