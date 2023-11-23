@@ -59,7 +59,7 @@ MIDDLEWARE = [
 AZURE_AD_CLIENT_ID = '3acebf80-2f2b-4d3b-9858-5e63ec6371bf'
 AZURE_AD_CLIENT_SECRET = 'yvZ8Q~kEmWKP5SzSEjXVRUX550j19mg_OrlxMaZL'
 AZURE_AD_AUTHORITY = 'https://login.microsoftonline.com/dcec6cc1-cc36-4bdf-a82c-eaddb2de00ea'
-AZURE_AD_REDIRECT_URI = 'http://localhost:8000/auth/microsoft/callback'  # Cambia esto según tu configuración
+AZURE_AD_REDIRECT_URI = 'https://teschiiscs.onrender.com/auth/microsoft/callback'  # Cambia esto según tu configuración
 
 
 
